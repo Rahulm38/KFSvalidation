@@ -1108,7 +1108,7 @@
       const gstNote2 = isInsta ? t("note2GST") : t("note2");
       const loanTermValue = valueOrBlank(data.loanTerm || data.numberOfEPIs, t("months"));
 
-      return [
+      const pages = [
         page(`
           <h1>${h(t("title"))}</h1>
           <h2>${h(t("part1"))}</h2>
@@ -1212,19 +1212,47 @@
             </tbody>
           </table>
         `, { className: "page-4", annex: t("annexB"), footer: true }),
-        page(`
-          <h2 class="left-title">${h(t("repayment"))}</h2>
-          ${repaymentTable(0, 32)}
-        `, { className: "repayment-page", logo: false, annex: t("annexC") }),
-        page(`
-          ${repaymentTable(32, 60)}
-          <div class="notes">
-            <p>${h(gstNote1)}</p>
-            <p>${h(gstNote2)}</p>
-            <p>${h(t("note3"))}</p>
-          </div>
-        `, { className: "repayment-page second", logo: false })
-      ].join("");
+      ];
+
+      const schedule = Array.isArray(data.repaymentSchedule) ? data.repaymentSchedule : [];
+      const totalRows = Math.max(schedule.length, 1);
+      
+      let startRow = 0;
+      while (startRow < totalRows) {
+        const isFirstPage = startRow === 0;
+        // First page has title, so slightly fewer rows. Next pages have more room.
+        const rowsThisPage = isFirstPage ? 32 : 36;
+        const endRow = Math.min(startRow + rowsThisPage, totalRows);
+        
+        const isLastPage = endRow >= totalRows;
+        
+        let content = '';
+        if (isFirstPage) {
+          content += `<h2 class="left-title">${h(t("repayment"))}</h2>`;
+        }
+        
+        content += repaymentTable(startRow, endRow);
+        
+        if (isLastPage) {
+          content += `
+            <div class="notes">
+              <p>${h(gstNote1)}</p>
+              <p>${h(gstNote2)}</p>
+              <p>${h(t("note3"))}</p>
+            </div>
+          `;
+        }
+        
+        pages.push(page(content, {
+          className: isFirstPage ? "repayment-page" : "repayment-page second",
+          logo: false,
+          annex: isFirstPage ? t("annexC") : undefined
+        }));
+        
+        startRow = endRow;
+      }
+      
+      return pages.join("");
     }
 
     root.innerHTML = mainHtml();
