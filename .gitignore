@@ -1,0 +1,24 @@
+# Reference PDF folders — not part of the repo
+iNSTA KFS/
+jUMBO KFS/
+
+# Old JSON working copies (kfs_jsons/ is the tracked canonical folder)
+kfs_jsons_updated/
+kfs_jsons/old/
+
+# Build artefacts
+kfs-generator-app.zip
+
+# Dev scratch files
+scratch/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo

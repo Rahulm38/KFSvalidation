@@ -3,94 +3,230 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KFS Generator</title>
+  <title>KFS Validator — HDFC Bank</title>
+  <meta name="description" content="Generate, preview, and validate HDFC Bank Key Fact Statements across 16 Indian languages.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
   <header class="app-header">
     <div class="brand-block">
-      <div class="brand-mark">KFS</div>
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="currentColor" opacity=".15"/>
+          <path d="M7 8h10M7 12h6M7 16h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div>
-        <h1>KFS Validation</h1>
-        <p>Generate, review, and validate loan KFS outputs from one static page.</p>
+        <h1>KFS Validator</h1>
+        <p class="header-sub">HDFC Bank · 16 languages · Insta &amp; Jumbo</p>
       </div>
     </div>
+    <div class="header-badge">Test Mode</div>
   </header>
 
+  <!-- ── Main Layout ────────────────────────────────────────── -->
   <main class="app-shell">
-    <aside class="panel controls">
-      <section>
-        <div class="section-heading">
-          <h2>Loan Inputs</h2>
-          <span>Test mode</span>
-        </div>
-        <div class="grid two">
-          <label>Flow
-            <select id="flow">
-              <option value="jumbo">Jumbo</option>
-              <option value="insta">Insta</option>
-            </select>
-          </label>
-          <label>Language JSON
-            <select id="language"></select>
-          </label>
-          <label>Loan Amount
-            <input id="loanAmount" type="number" value="1500000" min="1" step="1">
-          </label>
-          <label>ROI % p.a.
-            <input id="roi" type="number" value="10.08" min="0" step="0.01">
-          </label>
-          <label>Tenure (months)
-            <input id="tenure" type="number" value="60" min="1" step="1">
-          </label>
-          <label>Processing Fee
-            <input id="processingFee" type="number" value="1299" min="0" step="1">
-          </label>
-          <label>Other Charges
-            <input id="otherCharges" type="number" value="0" min="0" step="1">
-          </label>
-          <label>Application Date
-            <input id="date" type="text" value="08/07/2026">
-          </label>
-        </div>
-        <p class="note">Applicant, proposal number, repayment start date, and footer use fixed test data in the generated KFS.</p>
-        <button id="generateBtn" class="primary full-width">Generate KFS</button>
-      </section>
+
+    <!-- Left Panel: Inputs -->
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+
+        <section class="card">
+          <div class="card-header">
+            <span class="card-icon">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+              </svg>
+            </span>
+            <h2>Loan Inputs</h2>
+          </div>
+
+          <div class="field-grid">
+            <div class="field field--full">
+              <label for="flow">Loan Type</label>
+              <div class="select-wrap">
+                <select id="flow">
+                  <option value="jumbo">Insta Jumbo Loan</option>
+                  <option value="insta">Insta Loan</option>
+                </select>
+                <svg class="select-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="field field--full">
+              <label for="language">Language</label>
+              <div class="select-wrap">
+                <select id="language"></select>
+                <svg class="select-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="loanAmount">Loan Amount (₹)</label>
+              <input id="loanAmount" type="number" value="1500000" min="1" step="1" placeholder="e.g. 1500000">
+            </div>
+
+            <div class="field">
+              <label for="roi">ROI % p.a.</label>
+              <input id="roi" type="number" value="10.08" min="0" step="0.01" placeholder="e.g. 10.08">
+            </div>
+
+            <div class="field">
+              <label for="tenure">Tenure (months)</label>
+              <input id="tenure" type="number" value="60" min="1" step="1" placeholder="e.g. 60">
+            </div>
+
+            <div class="field">
+              <label for="processingFee">Processing Fee (₹)</label>
+              <input id="processingFee" type="number" value="1299" min="0" step="1">
+            </div>
+
+            <div class="field">
+              <label for="otherCharges">Other Charges (₹)</label>
+              <input id="otherCharges" type="number" value="0" min="0" step="1">
+            </div>
+
+            <div class="field">
+              <label for="date">Application Date</label>
+              <input id="date" type="text" value="08/07/2026" placeholder="DD/MM/YYYY">
+            </div>
+          </div>
+
+          <p class="input-note">
+            Applicant name, proposal number, and repayment start date use fixed test values.
+          </p>
+
+          <button id="generateBtn" class="btn btn--primary btn--full" disabled>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 3v14M3 10h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Generate KFS</span>
+          </button>
+        </section>
+
+        <!-- Info card -->
+        <section class="card card--info">
+          <p class="info-line">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            APR uses bisection-method IRR on net disbursed amount.
+          </p>
+          <p class="info-line">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            Urdu &amp; Kashmiri render with <code>dir="rtl"</code> automatically.
+          </p>
+        </section>
+
+      </div>
     </aside>
 
+    <!-- Right Panel: Workspace -->
     <section class="workspace">
-      <section id="emptyState" class="panel empty-state">
-        <div class="empty-icon">PDF</div>
-        <h2>Generate KFS to preview</h2>
-        <p>Enter the loan inputs, then click Generate KFS. The generated KFS and language JSON will appear here.</p>
-      </section>
 
-      <section id="resultArea" class="hidden">
-        <div class="result-actions">
-          <button id="viewPreviewBtn" class="action-button active">View KFS</button>
-          <button id="downloadPdfBtn" class="icon-button" title="Download PDF" aria-label="Download PDF">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14" />
-            </svg>
-          </button>
-          <button id="viewJsonBtn" class="action-button">View Language JSON</button>
+      <!-- Empty state -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-illustration">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="12" y="8" width="56" height="64" rx="4" fill="#EEF3FB"/>
+            <rect x="20" y="20" width="40" height="4" rx="2" fill="#B5C7E8"/>
+            <rect x="20" y="30" width="30" height="4" rx="2" fill="#B5C7E8"/>
+            <rect x="20" y="40" width="36" height="4" rx="2" fill="#B5C7E8"/>
+            <rect x="20" y="50" width="24" height="4" rx="2" fill="#B5C7E8"/>
+            <circle cx="60" cy="60" r="16" fill="#0B2A66"/>
+            <path d="M54 60h12M60 54v12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>No KFS generated yet</h2>
+        <p>Fill in the loan inputs on the left and click <strong>Generate KFS</strong> to preview the statement.</p>
+      </div>
+
+      <!-- Result area -->
+      <div id="resultArea" class="hidden">
+
+        <!-- Toolbar -->
+        <div class="result-toolbar">
+          <!-- Tab switcher -->
+          <div class="tab-group">
+            <button id="tabPreview" class="tab active" aria-label="View KFS preview">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 7h6M7 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              KFS Preview
+            </button>
+            <button id="tabJson" class="tab" aria-label="View language JSON">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M7 6L4 10l3 4M13 6l3 4-3 4M10 4l-2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Language JSON
+            </button>
+          </div>
+
+          <!-- Download group -->
+          <div class="download-group">
+            <span class="download-label">Download</span>
+            <button id="dlPdfBtn" class="dl-btn" title="Save as PDF via browser print dialog">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+              PDF
+            </button>
+            <button id="dlHtmlBtn" class="dl-btn" title="Download KFS as HTML file">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+              HTML
+            </button>
+            <button id="dlJsonBtn" class="dl-btn" title="Download language JSON file">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+              JSON
+            </button>
+          </div>
         </div>
 
-        <section id="previewPanel" class="panel result-panel">
-          <iframe id="previewFrame" title="KFS Preview"></iframe>
-        </section>
+        <!-- Preview panel -->
+        <div id="previewPanel" class="result-panel">
+          <iframe id="previewFrame" title="KFS Preview" sandbox="allow-same-origin allow-scripts"></iframe>
+        </div>
 
-        <section id="jsonPanel" class="panel result-panel hidden">
-          <div class="json-toolbar">
-            <span id="jsonInfo"></span>
+        <!-- JSON panel -->
+        <div id="jsonPanel" class="result-panel hidden">
+          <div class="json-header">
+            <span id="jsonMeta" class="json-meta"></span>
+            <button id="dlJsonBtn2" class="btn btn--ghost btn--sm" onclick="document.getElementById('dlJsonBtn').click()">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 2v9M5 8l3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Download JSON
+            </button>
           </div>
           <pre id="jsonViewer"></pre>
-        </section>
-      </section>
+        </div>
+
+      </div>
     </section>
+
   </main>
 
+  <!-- Scripts — order matters -->
   <script src="data/kfs-payload.js"></script>
-  <script src="app.js"></script>
+  <script src="js/calc.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
