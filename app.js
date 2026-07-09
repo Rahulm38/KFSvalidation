@@ -134,18 +134,23 @@ function calculate() {
   return { input, emi, apr, totalInterest, totalPaid, netAmount, schedule };
 }
 
-function injectTemplate(copy, data) {
+function injectTemplate(copy, data, lang) {
   let html = state.template;
   html = html.replace(/window\.KFS_COPY = window\.KFS_COPY \|\| [\s\S]*?;\n\s*window\.KFS_DATA = window\.KFS_DATA \|\| [\s\S]*?;\n/, () => {
     return `window.KFS_COPY = ${JSON.stringify(copy, null, 6)};\n    window.KFS_DATA = ${JSON.stringify(data, null, 6)};\n`;
   });
+  
+  if (lang) {
+    const isRtl = ['urdu', 'kashmiri'].includes(lang.toLowerCase());
+    html = html.replace(/<html lang="en">/, `<html lang="${lang}" dir="${isRtl ? 'rtl' : 'ltr'}">`);
+  }
   return html;
 }
 
 function render() {
   const result = calculate();
   const copy = window.KFS_JSONS[result.input.language] || window.KFS_JSONS.english;
-  state.renderedHtml = injectTemplate(copy, state.kfsData);
+  state.renderedHtml = injectTemplate(copy, state.kfsData, result.input.language);
   $('previewFrame').srcdoc = state.renderedHtml;
   renderJson();
 }
