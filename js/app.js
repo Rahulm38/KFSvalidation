@@ -50,15 +50,16 @@ function readInputs() {
 ───────────────────────────────────────────────────────────── */
 const RTL_LANGUAGES = ['urdu', 'kashmiri'];
 
-function buildKfsData(input, calcResult) {
+function buildKfsData(input, calcResult, copy) {
   const { Calc } = window;
+  const monthsLabel = (copy?.months || copy?.Months || 'Months').trim();
   return {
     flow: input.flow,
     date: input.date,
     applicantName: input.applicantName,
     loanProposalNumber: input.loanProposalNumber,
     loanAmount: Calc.money(input.loanAmount),
-    loanTerm: `${input.tenure} Months`,
+    loanTerm: `${input.tenure} ${monthsLabel}`,
     numberOfEPIs: String(input.tenure),
     epiAmount: Calc.money(calcResult.emi, 2),
     repaymentStartDate: input.repaymentStartDate,
@@ -104,7 +105,7 @@ function generate() {
 
   const calcResult = window.Calc.calculateKfs(input);
   const copy = window.KFS_JSONS[input.language] || window.KFS_JSONS.english;
-  const kfsData = buildKfsData(input, calcResult);
+  const kfsData = buildKfsData(input, calcResult, copy);
 
   state.renderedHtml = injectTemplate(copy, kfsData, input.language);
   $('previewFrame').srcdoc = state.renderedHtml;
