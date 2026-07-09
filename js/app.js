@@ -144,9 +144,18 @@ function updateJsonPanel(lang) {
 ───────────────────────────────────────────────────────────── */
 function downloadPdf() {
   if (!state.renderedHtml) return;
-  const fw = $('previewFrame').contentWindow;
-  fw.focus();
-  fw.print();
+  const printWindow = window.open('', '_blank');
+  if (printWindow) {
+    printWindow.document.write(state.renderedHtml);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 250);
+  } else {
+    alert("Please allow popups to download the PDF");
+  }
 }
 
 function downloadHtml() {
