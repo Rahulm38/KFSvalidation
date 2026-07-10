@@ -148,8 +148,9 @@ function downloadPdf() {
   const printWindow = window.open('', '_blank');
   if (printWindow) {
     const langName = state.currentLang.charAt(0).toUpperCase() + state.currentLang.slice(1);
+    const flowName = $('flow').value.charAt(0).toUpperCase() + $('flow').value.slice(1);
     printWindow.document.write(state.renderedHtml);
-    printWindow.document.title = `${langName} KFS`; // Sets default filename for PDF save
+    printWindow.document.title = `${langName} KFS ${flowName}`; // Sets default filename for PDF save
     printWindow.document.close();
     printWindow.focus();
     setTimeout(() => {
@@ -164,9 +165,10 @@ function downloadPdf() {
 function downloadHtml() {
   if (!state.renderedHtml) return;
   const langName = state.currentLang.charAt(0).toUpperCase() + state.currentLang.slice(1);
+  const flowName = $('flow').value.charAt(0).toUpperCase() + $('flow').value.slice(1);
   triggerDownload(
     new Blob([state.renderedHtml], { type: 'text/html;charset=utf-8' }),
-    `${langName} HTML.html`
+    `${langName} HTML ${flowName}.html`
   );
 }
 
@@ -175,9 +177,10 @@ function downloadJson() {
   const copy = window.KFS_JSONS[lang];
   if (!copy) return;
   const langName = lang.charAt(0).toUpperCase() + lang.slice(1);
+  const flowName = $('flow').value.charAt(0).toUpperCase() + $('flow').value.slice(1);
   triggerDownload(
     new Blob([JSON.stringify(copy, null, 2)], { type: 'application/json' }),
-    `${langName}.json`
+    `${langName} ${flowName}.json`
   );
 }
 
