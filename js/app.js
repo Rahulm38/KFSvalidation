@@ -239,6 +239,17 @@ async function init() {
       updateJsonPanel($('language').value);
     }
   });
+
+  // Hide the result area and show the empty state whenever any input changes
+  const inputIds = ['flow', 'language', 'loanAmount', 'roi', 'tenure', 'processingFee', 'otherCharges', 'date'];
+  inputIds.forEach(id => {
+    $(id).addEventListener('input', () => {
+      $('emptyState').classList.remove('hidden');
+      $('resultArea').classList.add('hidden');
+      state.renderedHtml = '';
+      $('previewFrame').srcdoc = '';
+    });
+  });
 }
 
 init();
