@@ -3,15 +3,12 @@
 scripts/build_payload.py
 Compiles kfs_jsons/ + scratch/template.html into:
     - data/kfs-payload.js, used by this validation app
-    - dist/kfs-template.html + dist/kfs-jsons.json, used for app embedding
 
 Usage:
     python3 scripts/build_payload.py
 
 Outputs:
     data/kfs-payload.js  — sets window.KFS_PAYLOAD = "<base64-gzipped-json>"
-    dist/kfs-template.html — standalone source-truth template
-    dist/kfs-jsons.json — all language copy bundled by language key
 
 The payload JSON structure is:
     {
@@ -34,9 +31,6 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_PATH = os.path.join(REPO_ROOT, "scratch", "template.html")
 JSONS_DIR = os.path.join(REPO_ROOT, "kfs_jsons")
 OUTPUT_PATH = os.path.join(REPO_ROOT, "data", "kfs-payload.js")
-DIST_DIR = os.path.join(REPO_ROOT, "dist")
-DIST_TEMPLATE_PATH = os.path.join(DIST_DIR, "kfs-template.html")
-DIST_JSONS_PATH = os.path.join(DIST_DIR, "kfs-jsons.json")
 
 
 def load_template():
@@ -102,19 +96,8 @@ def build():
         f.write(f"// Languages: {', '.join(sorted(jsons.keys()))}\n")
         f.write(f'window.KFS_PAYLOAD = "{b64}";\n')
 
-    os.makedirs(DIST_DIR, exist_ok=True)
-    with open(DIST_TEMPLATE_PATH, "w", encoding="utf-8") as f:
-        f.write(template)
-    with open(DIST_JSONS_PATH, "w", encoding="utf-8") as f:
-        json.dump(jsons, f, ensure_ascii=False, indent=2)
-        f.write("\n")
-
     size_kb = os.path.getsize(OUTPUT_PATH) / 1024
-    template_kb = os.path.getsize(DIST_TEMPLATE_PATH) / 1024
-    jsons_kb = os.path.getsize(DIST_JSONS_PATH) / 1024
     print(f"\n✓ Done — {OUTPUT_PATH} ({size_kb:.1f} KB, {len(jsons)} languages)")
-    print(f"✓ Handoff — {DIST_TEMPLATE_PATH} ({template_kb:.1f} KB)")
-    print(f"✓ Handoff — {DIST_JSONS_PATH} ({jsons_kb:.1f} KB)")
 
 
 if __name__ == "__main__":
