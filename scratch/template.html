@@ -1096,7 +1096,10 @@
     }
 
     function multiline(value) {
-      return h(valueOrBlank(value, "")).replace(/\n/g, "<br>");
+      let text = h(valueOrBlank(value, "")).replace(/\n/g, "<br>");
+      text = text.replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/g, '<a href="mailto:$1">$1</a>');
+      text = text.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+      return text;
     }
 
     function mainHtml() {
@@ -1194,7 +1197,7 @@
               <tr><td>2</td><td colspan="4" class="left">${h(t("termLoan"))}</td><td colspan="3">${h(loanTermValue)}</td></tr>
               <tr><td>a)</td><td colspan="4" class="left">${h(t("installment"))}</td><td colspan="3">${h(t("notApplicable"))}</td></tr>
               <tr><td rowspan="3">b)</td><td colspan="4" class="left">${h(t("type"))}</td><td colspan="3">${h(t("monthly"))}</td></tr>
-              <tr><td colspan="4" class="left">${h(t("amount"))}</td><td colspan="3">${rupeeValue(data.epiAmount)}</td></tr>
+              <tr><td colspan="4" class="left">${h(t("amount"))} Amount of EPI</td><td colspan="3">${rupeeValue(data.epiAmount)}</td></tr>
               <tr><td colspan="4" class="left">${h(t("numberOfEPIs"))}</td><td colspan="3">${h(valueOrBlank(data.numberOfEPIs, ""))}</td></tr>
               <tr><td>c)</td><td colspan="4" class="left">${h(t("capitalize"))}</td><td colspan="3">${notApplicableLower()}</td></tr>
               <tr class="tall"><td>d)</td><td colspan="4" class="left">${h(t("repaymentCommencement"))}</td><td colspan="3">${repaymentDetails()}</td></tr>
@@ -1239,6 +1242,18 @@
               <p>${h(gstNote1)}</p>
               <p>${h(gstNote2)}</p>
               <p>${h(t("note3"))}</p>
+            </div>
+            <div class="important-links" style="margin-top: 24px; font-size: 13px; line-height: 1.4;">
+              <strong>Please find below the important links related to Loans on Credit Card:</strong><br><br>
+              Privacy Policy URL - ${linked("https://www.hdfc.bank.in/privacy-policy")}<br>
+              Sachet Portal - ${linked("https://sachet.rbi.org.in/")}<br>
+              Loan on Credit Cards Products &amp; Feature URL - ${linked("https://www.hdfc.bank.in/loan-on-credit-card?icid=website_organic_listcards_collateralfreeloans:link:xpressloanoncreditcard")}<br>
+              Smart EMI Product &amp; Feature URL - ${linked("https://www.hdfc.bank.in/smartemi")}<br>
+              Balance Transfer on EMI Product &amp; Feature URL - ${linked("https://www.hdfc.bank.in/balance-transfer-on-emi")}<br>
+              Grievance redressal - ${linked("https://www.hdfc.bank.in/need-help/grievance-redressal-digital")}<br>
+              Complaint Management System (CMS) portal under the Reserve Bank-Integrated Ombudsman Scheme (RB-IOS) - ${linked("https://cms.rbi.org.in/")}<br>
+              Details of recovery agent - ${linked("https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/our-corporate-commitment/active-collection-vendor-list.pdf")}<br>
+              Digital Lending - ${linked("https://www.hdfc.bank.in/important-messages/product-features-and-policy")}
             </div>
           `;
         }

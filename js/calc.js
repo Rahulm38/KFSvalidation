@@ -14,13 +14,10 @@
    */
   function money(value, decimals = 0) {
     const n = Number(value || 0);
-    const amount =
-      Math.abs(n) < 10000
-        ? n.toFixed(decimals)
-        : n.toLocaleString('en-IN', {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals,
-          });
+    const amount = n.toLocaleString('en-IN', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
     return '₹ ' + amount;
   }
 
