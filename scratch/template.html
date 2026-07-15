@@ -1015,6 +1015,10 @@
       return String(data.flow || "").toLowerCase() === "insta" ? "insta" : "jumbo";
     }
 
+    function language() {
+      return String(document.documentElement.lang || "").toLowerCase();
+    }
+
     function loanTypeLabel() {
       return flow() === "insta" ? t("insta") : t("jumbo");
     }
@@ -1109,6 +1113,9 @@
       const foreclosureValue = isInsta ? t("foreclosure") : t("foreclosureGST");
       const gstNote1 = isInsta ? t("note1GST") : t("note1");
       const gstNote2 = isInsta ? t("note2GST") : t("note2");
+      const annexFixed = !isInsta && language() === "kannada"
+        ? t("fixedKannadaJumbo")
+        : t("Fixed");
       const loanTermValue = valueOrBlank(data.loanTerm || data.numberOfEPIs, t("months"));
 
       const pages = [
@@ -1196,12 +1203,12 @@
               <tr><td>1</td><td colspan="4" class="left">${h(t("sanctionedLoan"))}</td><td colspan="3">${rupeeValue(data.loanAmount)}</td></tr>
               <tr><td>2</td><td colspan="4" class="left">${h(t("termLoan"))}</td><td colspan="3">${h(loanTermValue)}</td></tr>
               <tr><td>a)</td><td colspan="4" class="left">${h(t("installment"))}</td><td colspan="3">${h(t("notApplicable"))}</td></tr>
-              <tr><td rowspan="3">b)</td><td colspan="4" class="left">${h(t("type"))}</td><td colspan="3">${h(t("monthly"))}</td></tr>
-              <tr><td colspan="4" class="left">${h(t("amount"))}</td><td colspan="3">${rupeeValue(data.epiAmount)}</td></tr>
-              <tr><td colspan="4" class="left">${h(t("numberOfEPIs"))}</td><td colspan="3">${h(valueOrBlank(data.numberOfEPIs, ""))}</td></tr>
+              <tr><td rowspan="3">b)</td><td colspan="4" class="left">${h(t("type"))}</td><td colspan="3">${h(t("Monthly"))}</td></tr>
+              <tr><td colspan="4" class="left">${h(t("Amount"))}</td><td colspan="3">${rupeeValue(data.epiAmount)}</td></tr>
+              <tr><td colspan="4" class="left">${h(t("NumberOfEPIs"))}</td><td colspan="3">${h(valueOrBlank(data.numberOfEPIs, ""))}</td></tr>
               <tr><td>c)</td><td colspan="4" class="left">${h(t("capitalize"))}</td><td colspan="3">${notApplicableLower()}</td></tr>
-              <tr class="tall"><td>d)</td><td colspan="4" class="left">${h(t("repaymentCommencement"))}</td><td colspan="3">${repaymentDetails()}</td></tr>
-              <tr><td>3</td><td colspan="4" class="left">${h(t("interestRate"))}</td><td colspan="3">${h(t("fixed"))}</td></tr>
+              <tr class="tall"><td>d)</td><td colspan="4" class="left">${h(t("repaymentcommencement"))}</td><td colspan="3">${repaymentDetails()}</td></tr>
+              <tr><td>3</td><td colspan="4" class="left">${h(t("interestRate"))}</td><td colspan="3">${h(annexFixed)}</td></tr>
               <tr><td>4</td><td colspan="4" class="left">${h(t("ROI"))}</td><td colspan="3">${h(valueOrBlank(data.interestRate, ""))}</td></tr>
               <tr class="tall"><td>5</td><td colspan="4" class="left">${h(t("totalint"))}</td><td colspan="3">${rupeeValue(data.totalInterest)}</td></tr>
               <tr><td>6</td><td colspan="4" class="left">${h(t("fee"))}</td><td colspan="3"></td></tr>

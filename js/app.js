@@ -53,6 +53,7 @@ const RTL_LANGUAGES = ['urdu', 'kashmiri'];
 function buildKfsData(input, calcResult, copy) {
   const { Calc } = window;
   const monthsLabel = (copy?.months || copy?.Months || 'Months').trim();
+  const epiAmount = Calc.money(calcResult.emi, 2).replace(/\.?0+$/, '');
   return {
     flow: input.flow,
     date: input.date,
@@ -61,7 +62,7 @@ function buildKfsData(input, calcResult, copy) {
     loanAmount: Calc.money(input.loanAmount),
     loanTerm: `${input.tenure} ${monthsLabel}`,
     numberOfEPIs: String(input.tenure),
-    epiAmount: Calc.money(calcResult.emi, 2),
+    epiAmount,
     repaymentStartDate: input.repaymentStartDate,
     interestRate: Calc.percent(input.roi),
     apr: Calc.percent(calcResult.apr),

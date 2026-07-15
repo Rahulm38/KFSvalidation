@@ -110,7 +110,7 @@
       if (i === months) {
         // Final instalment — clear remaining principal
         principalPaid = outstanding;
-        instalment = principalPaid + interest;
+        instalment = Math.round(principalPaid + interest);
       }
 
       rows.push({
