@@ -79,12 +79,15 @@ function buildKfsData(input, calcResult, copy) {
 
 function injectTemplate(copy, kfsData, lang) {
   let html = window.KFS_TEMPLATE;
+  const injectionMarker = '/*__KFS_INJECT__*/';
 
-  // Replace the default copy + data placeholders in the template
+  // Inject the selected language copy and generated KFS data into the template.
+  if (!html.includes(injectionMarker)) {
+    throw new Error('KFS template injection marker is missing.');
+  }
   html = html.replace(
-    /window\.KFS_COPY = window\.KFS_COPY \|\| [\s\S]*?;\n\s*window\.KFS_DATA = window\.KFS_DATA \|\| [\s\S]*?;\n/,
-    () =>
-      `window.KFS_COPY = ${JSON.stringify(copy, null, 4)};\n    window.KFS_DATA = ${JSON.stringify(kfsData, null, 4)};\n`
+    injectionMarker,
+    `window.KFS_COPY = ${JSON.stringify(copy, null, 4)};\n    window.KFS_DATA = ${JSON.stringify(kfsData, null, 4)};`
   );
 
   // Set correct html[lang] and dir attributes
