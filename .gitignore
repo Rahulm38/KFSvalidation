@@ -21,3 +21,29 @@ patch.diff
 .idea/
 *.swp
 *.swo
+
+# Local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+.npmrc
+
+# Local exports and potentially private data
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.jsonl
+*.sqlite
+*.sqlite3
+*.db
+*.pdf
+
+# Generated outputs
+output/
+downloads/

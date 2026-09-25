@@ -556,3 +556,37 @@ input:focus, select:focus {
     flex-wrap: wrap;
   }
 }
+
+
+/* Repository scope, privacy, and security links */
+.site-footer {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto 24px;
+  padding: 18px 4px 8px;
+  border-top: 1px solid #d9dee8;
+  color: #596579;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0 0 8px;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+}
+
+.site-footer a {
+  color: #244fb3;
+  text-underline-offset: 3px;
+}
+
+.site-footer a:focus-visible {
+  outline: 2px solid #244fb3;
+  outline-offset: 3px;
+}
