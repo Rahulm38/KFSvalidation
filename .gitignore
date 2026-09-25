@@ -1,0 +1,23 @@
+# Local-only reference material and source tooling
+iNSTA KFS/
+jUMBO KFS/
+kfs_jsons/
+kfs_jsons_updated/
+kfs_jsons/old/
+scratch/
+scripts/
+read_pdf*.py
+update_*.py
+patch.diff
+*.zip
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
